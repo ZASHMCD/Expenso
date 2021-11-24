@@ -5,7 +5,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
@@ -27,6 +32,7 @@ import hide
 import indianRupee
 import kotlinx.coroutines.flow.collect
 import show
+import snack
 
 @AndroidEntryPoint
 class TransactionDetailsFragment : BaseFragment<FragmentTransactionDetailsBinding, TransactionViewModel>() {
@@ -74,7 +80,9 @@ class TransactionDetailsFragment : BaseFragment<FragmentTransactionDetailsBindin
                     onDetailsLoaded(detailState.transaction)
                 }
                 is DetailState.Error -> {
-                    toast("Error forever")
+                    binding.root.snack(
+                        string = R.string.text_error
+                    )
                 }
                 DetailState.Empty -> {
                     findNavController().navigateUp()
@@ -134,7 +142,9 @@ class TransactionDetailsFragment : BaseFragment<FragmentTransactionDetailsBindin
             hideAppNameAndLogo()
             saveBitmap(requireActivity(), bitmap)
         } ?: run {
-            toast("Error occurred!")
+            binding.root.snack(
+                string = R.string.text_error_occurred
+            )
             return
         }
 
